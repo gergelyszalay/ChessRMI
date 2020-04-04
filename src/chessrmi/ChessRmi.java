@@ -5,6 +5,8 @@
  */
 package chessrmi;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Gege
@@ -16,7 +18,9 @@ public class ChessRmi {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Scanner scan = new Scanner(System.in);
         System.out.println("Hello World");
+        String C = scan.nextLine();
     }
     
 }
