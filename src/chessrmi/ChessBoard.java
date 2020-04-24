@@ -14,7 +14,7 @@ public class ChessBoard {
     
 String ColorFigure="";
 String NameFigure="";
-int figureId;
+int figureId=100;
 boolean active=false;
 boolean attackable=false;
 boolean steppable=false;

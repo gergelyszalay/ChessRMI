@@ -23,10 +23,16 @@ public class BoardCanvas extends JComponent {
     //ChessFigures[] figures;
     BufferedImage img = null;
     ChessBoard[][] board;
+    String playerColor;
     public int activeF;
     public int[][] field = new int[9][9];
     public void clearC(){
+
         repaint();
+    }
+    public void test(int x, int y){
+        System.out.println(board[x][y].active);
+     //   repaint();
     }
     public BufferedImage getImage(String name, String colorF){
      //  System.out.println(name);
@@ -111,41 +117,50 @@ public class BoardCanvas extends JComponent {
     { 
        Graphics2D g2 = (Graphics2D) g;
        Rectangle2D[][] a1 = new Rectangle2D[8][8];
-       for (int x=0; x<8; x++){
-           for (int y=0; y<8; y++){
-                a1[x][y] = new Rectangle2D.Float((x+1)*100, (y+1)*100, 100, 100);
+       for (int a=0; a<8; a++){
+           for (int b=0; b<8; b++){
+               int x =a;
+               int y = b;
+               if("Black".equals(playerColor)){
+               x=7-a;
+               y=7-b;
+             //      System.out.println(x + " " + y);
+               }
+                a1[a][b] = new Rectangle2D.Float((a+1)*100, (b+1)*100, 100, 100);
                 field[x][y]=0;
                 g2.setColor( Color.black );
-                g2.draw(a1[x][y]);
+                g2.draw(a1[a][b]);
+            //    System.out.println(board[x][y].attackable);
+             //   System.out.println(board[x][y].active);
                 if (board[x][y].active==true){
                     g2.setColor( Color.blue);
-                    g2.fill(a1[x][y]);
-              //      System.out.println("2");
+                    g2.fill(a1[a][b]);
+                    System.out.println("2");
                 
                 }else if (board[x][y].steppable==true){
                     g2.setColor( Color.YELLOW);
-                    g2.fill(a1[x][y]);
+                    g2.fill(a1[a][b]);
                 //    System.out.println("3");
                 
                 }else if (board[x][y].attackable==true){
                     g2.setColor( Color.pink);
-                    g2.fill(a1[x][y]);
+                    g2.fill(a1[a][b]);
                //     System.out.println("4");
                 
                 }else if ("Dark".equals(board[x][y].colorField)){
                     g2.setColor( Color.lightGray );
-                    g2.fill(a1[x][y]);
+                    g2.fill(a1[a][b]);
                   //  System.out.println("5");
                 }
-                System.out.println("6");
+             //   System.out.println("6");
                 if(!"".equals(board[x][y].NameFigure)){
                     
                     BufferedImage img2= getImage(board[x][y].NameFigure, board[x][y].ColorFigure);
-                    
+                 //   System.out.println(board[x][y].NameFigure + " " + ((a+1)*100)+20 + " " + ((a+1)*100)+20);
                     if(img2!=null){
                       
                     //    System.out.println(x+ " " + y); 
-                         g2.drawImage(img2, (x+1)*100+20, (y+1)*100+20, null);
+                         g2.drawImage(img2, (a+1)*100+20, (b+1)*100+20, null);
                        
                     }
                 }
@@ -157,8 +172,10 @@ public class BoardCanvas extends JComponent {
         }*/
         }
     } 
-    public BoardCanvas(ChessBoard[][] boardIn) {
+    public BoardCanvas(ChessBoard[][] boardIn, String playerColor) {
        // this.figures = (ChessFigures[]) figures;
         this.board= (ChessBoard[][]) boardIn;
+        this.playerColor =  playerColor;
+        System.out.println(playerColor);
     }
 }

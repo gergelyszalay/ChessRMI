@@ -38,11 +38,11 @@ javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
         // setting size of the pop window 
         window.setBounds(30, 30, 1000, 1000);
         
-        jLabel1.setText("");
+      //  jLabel1.setText("");
         window.add(jLabel1);
         jLabel3.setText(" VS ");
         window.add(jLabel3);
-        jLabel2.setText("");
+     //   jLabel2.setText("");
         window.add(jLabel2);
         window.setVisible(true);
         

@@ -14,12 +14,14 @@ import java.util.Random;
 public class ChessPlayers {
     String name;
     String playerColor;
+    boolean next=false;
     Random rand = new Random();
     public ChessPlayers(String name) {
         this.name = name;
        boolean colors = rand.nextBoolean();
        if(colors){
            this.playerColor = "White";
+           this.next=true;
        }else{
            this.playerColor = "Black";
        }
