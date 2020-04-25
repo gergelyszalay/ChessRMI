@@ -5,38 +5,31 @@
  */
 package chessrmi;
 
-import static chessrmi.ChessRmi.Steppes;
-import static chessrmi.ChessRmi.clearField;
-import static chessrmi.ChessRmi.makeStepp;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.*;
-import java.util.concurrent.TimeUnit;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Timer;
+import javax.swing.DefaultListModel;
 
 /**
  *
  * @author Gege
  */
-public class ClientSide {
+public class ClientSide extends UnicastRemoteObject implements ClientService{
 
     String name4 = "";
     String b;
     int xA, yA, oldX, oldY;
-    static Timer timer;
     ChessBoard[][] board = new ChessBoard[8][8];
     MouseClick click;
     boolean next;
-    ScreenRefresh SR;
-    public final static int INTERVAL = 10000;
-
+    BoardCanvas canvas2;
+    ChessService impl;
+    
     public static void clearField(ChessBoard[][] board) {
         for (int z = 0; z < 8; z++) {
             for (int w = 0; w < 8; w++) {
@@ -48,7 +41,21 @@ public class ClientSide {
         }
 
     }
+    public void RefreshClient() throws RemoteException{
+        System.out.println("hat ez muxik");
+        board = refreshBoard(impl);
+        canvas2.clearC();
+    
+    }
+    public void SendIp(ClientSide clieent){  
+        try {
 
+            impl.ConnectClient(clieent);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientSide.class.getName()).log(Level.SEVERE, null, ex);
+        }
+  
+    }
     public static void Steppes(int activeX, int activeY, ChessBoard[][] board) {
         int x = activeX;
         int y = activeY;
@@ -146,7 +153,7 @@ public class ClientSide {
         return board;
     }
 
-    public ClientSide(String namePl) throws InterruptedException {
+    public ClientSide(String namePl) throws InterruptedException, RemoteException {
 
         try {
 
@@ -154,17 +161,17 @@ public class ClientSide {
             Registry myRegistry = LocateRegistry.getRegistry("192.168.100.27", 1010);
 
             // search for myMessage service
-            ChessService impl = (ChessService) myRegistry.lookup("ChessServer");
+             impl = (ChessService) myRegistry.lookup("ChessServer");
             click = new MouseClick(impl);
-            //      System.out.println(click.impl.getColorF(1, 1));
+ 
             // call server's method        
             b = impl.createClientPlayer(namePl);
             next = impl.PlayerNext();
-            //     System.out.println(b);
+
             name4 = impl.getPlayerName();
-            //     System.out.println(name4);
 
             board = refreshBoard(impl);
+           // SendIp();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -172,8 +179,8 @@ public class ClientSide {
         sWindow2.setLabel1(name4);
         sWindow2.setLabel2(namePl);
         sWindow2.window.revalidate();
-        System.out.println(b);
-        BoardCanvas canvas2 = new BoardCanvas(board, b);
+
+        canvas2 = new BoardCanvas(board, b);
         sWindow2.AddCanvas(canvas2);
 
         sWindow2.window.addMouseListener(new MouseAdapter() {
@@ -199,7 +206,6 @@ public class ClientSide {
                         oldX = xA;
                         oldY = yA;
                         board[xA][yA].active = true;
-                        System.out.println(board[xA][yA].active);
                         Steppes(xA, yA, board);
                         canvas2.clearC();
 
@@ -208,15 +214,9 @@ public class ClientSide {
                     if (board[xA][yA].steppable == true || board[xA][yA].attackable == true) {
                         try {
                             clearField(board);
-
                             click.impl.makeStepp(xA, yA, oldX, oldY);
                             board = refreshBoard(click.impl);
-
                             canvas2.clearC();
-                            SR = new ScreenRefresh(click.impl, canvas2);
-
-                            SR.start();
-
                         } catch (RemoteException ex) {
                             Logger.getLogger(ClientSide.class.getName()).log(Level.SEVERE, null, ex);
 

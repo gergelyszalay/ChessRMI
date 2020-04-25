@@ -12,6 +12,7 @@ import java.rmi.*;
  * @author Gege
  */
 public interface ChessService extends Remote {
+    public void ConnectClient(ClientService n) throws RemoteException;
 
     public void makeStepp(int activeX, int activeY, int xA, int yA) throws RemoteException;
 

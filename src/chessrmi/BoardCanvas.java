@@ -31,7 +31,7 @@ public class BoardCanvas extends JComponent {
         repaint();
     }
     public void test(int x, int y){
-        System.out.println(board[x][y].active);
+      //  System.out.println(board[x][y].active);
      //   repaint();
     }
     public BufferedImage getImage(String name, String colorF){
@@ -176,6 +176,6 @@ public class BoardCanvas extends JComponent {
        // this.figures = (ChessFigures[]) figures;
         this.board= (ChessBoard[][]) boardIn;
         this.playerColor =  playerColor;
-        System.out.println(playerColor);
+     //   System.out.println(playerColor);
     }
 }

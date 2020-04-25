@@ -203,7 +203,9 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
         String name = JOptionPane.showInputDialog(getContentPane(),
                         "What is your name?", null);
           if (name!=""){
-              new ClientSide(name);
+         
+                new Client(name);
+            
           }
     }//GEN-LAST:event_jButton2ActionPerformed
 

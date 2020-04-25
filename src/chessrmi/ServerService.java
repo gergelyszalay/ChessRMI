@@ -13,7 +13,11 @@ package chessrmi;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +28,8 @@ public class ServerService extends UnicastRemoteObject implements ChessService, 
    public  ChessPlayers clientPl;
        ChessBoard[][] board;
        int xA, yA, oldX, oldY;
-   public String sPlCl;    
+   public String sPlCl; 
+ClientService client;   
 BoardCanvas canvas;
 public static void clearField(ChessBoard[][] board) {
         for (int z = 0; z < 8; z++) {
@@ -39,7 +44,7 @@ public static void clearField(ChessBoard[][] board) {
     }
    @Override
     public void makeStepp(int activeX, int activeY, int xA, int yA) throws RemoteException {
-        System.out.println("Steppes");
+
         
                     board[activeX][activeY].ColorFigure = board[xA][yA].ColorFigure;
                     board[activeX][activeY].NameFigure = board[xA][yA].NameFigure;
@@ -48,7 +53,7 @@ public static void clearField(ChessBoard[][] board) {
                     board[xA][yA].ColorFigure = "";
                     board[xA][yA].NameFigure = "";
                     board[xA][yA].figureId = 100;
-                    System.out.println("Steppes");
+     
           canvas.clearC();
           serverPl.next=!serverPl.next;
     }
@@ -89,6 +94,11 @@ public static void clearField(ChessBoard[][] board) {
     public int getFID(int x, int y) throws RemoteException {
         return board[x][y].figureId;
     }
+   @Override
+    public void ConnectClient(ClientService n) throws RemoteException{   
+         client  = (ClientService) n;
+        client.RefreshClient();
+    }
 
    @Override
     public String getColorField(int x, int y) throws RemoteException {
@@ -113,18 +123,12 @@ public static void clearField(ChessBoard[][] board) {
            for (int w=0; w<8; w++){
                 
                board[z][w] = new ChessBoard("",100);
-                //if(plColor == "White"){
                     if ((z+w)%2!=0){
                         board[z][w].colorField="Dark";
-                   // }
-              //  }else{
-             //       if ((z+w)%2==0){
-              //          board[z][w].colorField="Dark";
-             //       }
+
                 }  
            }
         }   
-   // ChessFigures[] figures = new ChessFigures[33];
         
         int x=0;
         int y=0;
@@ -205,25 +209,16 @@ public static void clearField(ChessBoard[][] board) {
                 }
 
             }
-           /* if(plColor == "Black"){
-                //x=9;
-                y=9-y;
-            }*/
-         //   System.out.println(x+ " " + y +" " + name);
+
             board[x-1][y-1].NameFigure= name;
             board[x-1][y-1].ColorFigure = colorF;
             board[x-1][y-1].figureId=i;
-           // figures[i+1]= new ChessFigures(colorF, x, y, true, name);
-            System.out.println(name + " " + colorF);
         }
     return board;    
     }
 public void Steppes(int activeX, int activeY, ChessBoard[][] board){
         int x= activeX;
-        int y= activeY;
-        System.out.println(board[x][y+1].figureId);
-     //   System.out.println(x+" "+y);
-     //   System.out.println(board[x][y].NameFigure);   
+        int y= activeY;   
         if("Pawn".equals(board[x][y].NameFigure)){
             if ("Black".equals(sPlCl)){
              if (board[x][y+1].figureId==100){
@@ -296,12 +291,10 @@ public void Steppes(int activeX, int activeY, ChessBoard[][] board){
     }
     public ServerService(String namePl) throws RemoteException {
         serverPl = new ChessPlayers(namePl);
-        serverPl.playerColor = "Black";
         GameWindow sWindow = new GameWindow();
         board = (ChessBoard[][]) createBoard(serverPl.playerColor);
         canvas = new BoardCanvas(board, serverPl.playerColor);
         sWindow.AddCanvas(canvas);
-        //  System.out.println(serverPl.playerColor);
         sWindow.window.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(final MouseEvent e) {
@@ -317,22 +310,30 @@ public void Steppes(int activeX, int activeY, ChessBoard[][] board){
                 if(serverPl.next){
                    //activate figures
                 if (canvas.board[xA][yA].ColorFigure.equals(sPlCl)) {
-                    clearField(board);
-                    oldX = xA;
-                    oldY = yA;
-                    board[xA][yA].active = true;
-                    Steppes(xA, yA, board);
-                    canvas.clearC();                
+                    
+                        clearField(board);
+                        oldX = xA;
+                        oldY = yA;
+                        board[xA][yA].active = true;
+                        Steppes(xA, yA, board);
+                                       
+                        canvas.clearC();
+                     
                 }
                 //make a stepp
                 if (board[xA][yA].steppable == true || board[xA][yA].attackable == true) {
                     clearField(board);
                     try {
-                        System.out.println(oldX + " " + oldY + " " + xA + " " + yA);
+                   //     System.out.println(oldX + " " + oldY + " " + xA + " " + yA);
                         makeStepp(xA, yA, oldX, oldY);
                         canvas.clearC();
                     } catch (RemoteException ex) {
                         Logger.getLogger(ClientSide.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                       try {
+                            client.RefreshClient(); 
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(ServerService.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 //click on an empty field
