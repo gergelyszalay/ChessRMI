@@ -19,18 +19,10 @@ public class Client {
         ClientSide clieent = new ClientSide(namePl);
         clieent.SendIp(clieent);
        
-           /* // create on port 1099
-            Registry registry = LocateRegistry.createRegistry(1099);
-             
-            // create a new service named myMessage
-            registry.rebind("ClientSer", new ClientSide(namePl));*/
         } catch (InterruptedException | RemoteException e) {
         }     
         System.out.println("system is ready");  
         
-        
-      
-     //   sWindow.getContentPane().add(canvas); 
     }
 }
 

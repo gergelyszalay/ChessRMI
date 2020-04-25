@@ -231,13 +231,17 @@ public void Steppes(int activeX, int activeY, ChessBoard[][] board){
                 board[x][y+1].steppable=true;
             }
             if(x>0){
-                if ("Black".equals(board[x-1][y+1].ColorFigure)){
+                System.out.println(board[x-1][y+1].ColorFigure);
+                if ("White".equals(board[x-1][y+1].ColorFigure)){
                     board[x-1][y+1].attackable=true;
+                    
                 }
             }    
             if(x<7){
-                if ("Black".equals(board[x+1][y+1].ColorFigure)){
+                System.out.println(board[x+1][y+1].ColorFigure);
+                if ("White".equals(board[x+1][y+1].ColorFigure)){
                     board[x+1][y+1].attackable=true;
+                    
                 }
             }
             
@@ -264,29 +268,133 @@ public void Steppes(int activeX, int activeY, ChessBoard[][] board){
             }
         }
         
-        if("Rock".equals(board[x][y].NameFigure)){
-            int i=x;
-            int j=y;
-            
-            if(i!=7){
+    if ("Rock".equals(board[x][y].NameFigure)) {
+        int i = x;
+        int j = y;
+        if ("Black".equals(sPlCl)) {
+            if (i != 7) {
                 i++;
-                while(i<8 && board[i][y].figureId==100){
-                    board[i][y].steppable=true;
+                while (i < 8 && board[i][y].figureId == 100) {
+                    board[i][y].steppable = true;
+
                     i++;
                 }
+                if (i < 8) {
+                if ("White".equals(board[i][y].ColorFigure)) {
+                    board[i][y].attackable = true;
+                }}
             }
-            
-            i=x;
-            j=y;
-            if(j!=0){
-                j--;
-                while(j>0 && board[x][j].figureId==100){
-                    board[x][j].steppable=true;
-                    j--;
+            i = x;
+            j = y;
+            if (i != 0) {
+                i--;
+                while (i >= 0 && board[i][y].figureId == 100) {
+                    board[i][y].steppable = true;
+
+                    i--;
+                }
+                if (i >= 0) {
+                    if ("White".equals(board[i][y].ColorFigure)) {
+                        board[i][y].attackable = true;
+                    }
                 }
             }
+            i = x;
+            j = y;
+            if (j != 7) {
+                j++;
+                while (j < 8 && board[x][j].figureId == 100) {
+                    board[x][j].steppable = true;
 
+                    j++;
+                }
+                if (j < 8) {
+                    if ("White".equals(board[x][j].ColorFigure)) {
+                        board[x][j].attackable = true;
+                    }
+                }
+            }
+            i = x;
+            j = y;
+            if (j != 0) {
+                j--;
+                while (j >= 0 && board[x][j].figureId == 100) {
+                    board[x][j].steppable = true;
+
+                    j--;
+                }
+                if (j >= 0) {
+                    if ("White".equals(board[x][j].ColorFigure)) {
+                        board[x][j].attackable = true;
+                    }
+                }
+            }
+        } else {
+            if (i != 7) {
+                i++;
+                while (i < 8 && board[i][y].figureId == 100) {
+                    board[i][y].steppable = true;
+
+                    i++;
+                }
+                if (i <= 7) {
+                    if ("Black".equals(board[i][y].ColorFigure)) {
+                        board[i][y].attackable = true;
+                    }
+                }
+            }
+            i = x;
+            j = y;
+            if (i != 0) {
+                i--;
+                while (i >= 0 && board[i][y].figureId == 100) {
+                    board[i][y].steppable = true;
+
+                    i--;
+                }
+                if (i >= 0) {
+                    if ("Black".equals(board[i][y].ColorFigure)) {
+                        board[i][y].attackable = true;
+                    }
+                }
+            }
+            i = x;
+            j = y;
+            if (j != 7) {
+                j++;
+                while (j < 8 && board[x][j].figureId == 100) {
+                    board[x][j].steppable = true;
+
+                    j++;
+                }
+                if (j < 8) {
+                    if ("Black".equals(board[x][j].ColorFigure)) {
+                        board[x][j].attackable = true;
+                    }
+                }
+            }
+            i = x;
+            j = y;
+            if (j != 0) {
+                j--;
+                while (j >= 0 && board[x][j].figureId == 100) {
+                    board[x][j].steppable = true;
+
+                    j--;
+                }
+                if (j >= 0) {
+                    if ("Black".equals(board[x][j].ColorFigure)) {
+                        board[x][j].attackable = true;
+                    }
+                }
+            }
         }
+    }
+    if ("Knight".equals(board[x][y].NameFigure)) {}
+        if(x>2 )
+    
+    
+    
         
     }
     public ServerService(String namePl) throws RemoteException {
