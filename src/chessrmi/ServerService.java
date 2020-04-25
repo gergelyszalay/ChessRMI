@@ -390,11 +390,323 @@ public void Steppes(int activeX, int activeY, ChessBoard[][] board){
             }
         }
     }
-    if ("Knight".equals(board[x][y].NameFigure)) {}
-        if(x>2 )
+    if ("Knight".equals(board[x][y].NameFigure)) {
+        int i = x;
+        int j = y;
+        i += 1;
+        j += 2;
+        if (i >= 0 && j >= 0 && j < 8 && i < 8) {
+            if (board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+            } else if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                board[i][j].attackable = true;
+
+            }
+        }
+        i = x;
+        j = y;
+        i += 2;
+        j += 1;
+        if (i >= 0 && j >= 0 && j < 8 && i < 8) {
+            if (board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+            } else if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                board[i][j].attackable = true;
+
+            }
+        }
+        i = x;
+        j = y;
+        i -= 2;
+        j += 1;
+        if (i >= 0 && j >= 0 && j < 8 && i < 8) {
+            if (board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+            } else if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                board[i][j].attackable = true;
+
+            }
+        }
+        i = x;
+        j = y;
+        i += 2;
+        j -= 1;
+        if (i >= 0 && j >= 0 && j < 8 && i < 8) {
+            if (board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+            } else if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                board[i][j].attackable = true;
+
+            }
+        }
+        i = x;
+        j = y;
+        i -= 1;
+        j += 2;
+        if (i >= 0 && j >= 0 && j < 8 && i < 8) {
+            if (board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+            } else if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                board[i][j].attackable = true;
+
+            }
+        }
+        i = x;
+        j = y;
+        i += 1;
+        j -= 2;
+        if (i >= 0 && j >= 0 && j < 8 && i < 8) {
+            if (board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+            } else if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                board[i][j].attackable = true;
+
+            }
+        }
+        i = x;
+        j = y;
+        i -= 1;
+        j -= 2;
+        if (i >= 0 && j >= 0 && j < 8 && i < 8) {
+            if (board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+            } else if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                board[i][j].attackable = true;
+
+            }
+        }
+        i = x;
+        j = y;
+        i -= 2;
+        j -= 1;
+        if (i >= 0 && j >= 0 && j < 8 && i < 8) {
+            if (board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+            } else if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                board[i][j].attackable = true;
+
+            }
+        }
+        
+    }
+    if ("Bishop".equals(board[x][y].NameFigure)) {
+        int i = x;
+        int j = y;
+        System.out.println(i + " " + j);
+        if (i != 7 && j!=7) {
+            i++;
+            j++;
+            while (i < 8 && j < 8 && board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+                j++;
+                i++;
+            }
+            if (i < 8 && j < 8) {
+                if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                    board[i][j].attackable = true;
+                }
+            }
+        }
+        i = x;
+        j = y;
+        System.out.println(i + " " + j);
+        if (i != 7 && j!=0) {
+            i++;
+            j--;
+            while (i < 8 && j >= 0 && board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+                j--;
+                i++;
+            }
+            if (i < 8 && j >= 0) {
+                if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                    board[i][j].attackable = true;
+                }
+            }
+        }
+        i = x;
+        j = y;
+        System.out.println(i + " " + j);
+        if (j != 7 && i!=0) {
+            i--;
+            j++;
+            while (j < 8 && i >= 0 && board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+                i--;
+                j++;
+            }
+            if (j < 8 && i >= 0) {
+                if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                    board[i][j].attackable = true;
+                }
+            }
+        }
+        i = x;
+        j = y;
+        System.out.println(i + " " + j);
+        if (i != 0 && j!=0) {
+            i--;
+            j--;
+            while (i >= 0 && j >= 0 && board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+                j--;
+                i--;
+            }
+            if (i >= 0 && j >= 0) {
+                if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                    board[i][j].attackable = true;
+                }
+            }
+        }
+
+    }
+    if ("Queen".equals(board[x][y].NameFigure)) {
+        int i = x;
+        int j = y;
+        System.out.println(i + " " + j);
+        if (i != 7 && j!=7) {
+            i++;
+            j++;
+            while (i < 8 && j < 8 && board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+                j++;
+                i++;
+            }
+            if (i < 8 && j < 8) {
+                if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                    board[i][j].attackable = true;
+                }
+            }
+        }
+        i = x;
+        j = y;
+        System.out.println(i + " " + j);
+        if (i != 7 && j!=0) {
+            i++;
+            j--;
+            while (i < 8 && j >= 0 && board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+                j--;
+                i++;
+            }
+            if (i < 8 && j >= 0) {
+                if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                    board[i][j].attackable = true;
+                }
+            }
+        }
+        i = x;
+        j = y;
+        System.out.println(i + " " + j);
+        if (j != 7 && i!=0) {
+            i--;
+            j++;
+            while (j < 8 && i >= 0 && board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+                i--;
+                j++;
+            }
+            if (j < 8 && i >= 0) {
+                if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                    board[i][j].attackable = true;
+                }
+            }
+        }
+        i = x;
+        j = y;
+        System.out.println(i + " " + j);
+        if (i != 0 && j!=0) {
+            i--;
+            j--;
+            while (i >= 0 && j >= 0 && board[i][j].figureId == 100) {
+                board[i][j].steppable = true;
+                j--;
+                i--;
+            }
+            if (i >= 0 && j >= 0) {
+                if (!sPlCl.equals(board[i][j].ColorFigure)) {
+                    board[i][j].attackable = true;
+                }
+            }
+        }
+        i = x;
+            j = y;
+        if (i != 7) {
+                i++;
+                while (i < 8 && board[i][y].figureId == 100) {
+                    board[i][y].steppable = true;
+
+                    i++;
+                }
+                if (i <= 7) {
+                    if (!sPlCl.equals(board[i][y].ColorFigure)) {
+                        board[i][y].attackable = true;
+                    }
+                }
+            }
+            i = x;
+            j = y;
+            if (i != 0) {
+                i--;
+                while (i >= 0 && board[i][y].figureId == 100) {
+                    board[i][y].steppable = true;
+
+                    i--;
+                }
+                if (i >= 0) {
+                    if (!sPlCl.equals(board[i][y].ColorFigure)) {
+                        board[i][y].attackable = true;
+                    }
+                }
+            }
+            i = x;
+            j = y;
+            if (j != 7) {
+                j++;
+                while (j < 8 && board[x][j].figureId == 100) {
+                    board[x][j].steppable = true;
+
+                    j++;
+                }
+                if (j < 8) {
+                    if (!sPlCl.equals(board[x][j].ColorFigure)) {
+                        board[x][j].attackable = true;
+                    }
+                }
+            }
+            i = x;
+            j = y;
+            if (j != 0) {
+                j--;
+                while (j >= 0 && board[x][j].figureId == 100) {
+                    board[x][j].steppable = true;
+
+                    j--;
+                }
+                if (j >= 0) {
+                    if (!sPlCl.equals(board[x][j].ColorFigure)) {
+                        board[x][j].attackable = true;
+                    }
+                }
+            }
+
+    }
+    if ("King".equals(board[x][y].NameFigure)) {
+    for (int i = -1; i<2; i++){
+        for (int j = -1; j<2; j++){
+            if(((x+i) >0) && ((x+i)<8) && ((y+j) >0) && ((y+j)<8)){
+                System.out.println();
+                if (board[x+i][y+j].figureId == 100){
+                    board[x+i][y+j].steppable = true;
+                }
+                if (!sPlCl.equals(board[x+i][y+j].ColorFigure)) {
+                        board[x+i][y+j].attackable = true;
+                    }
+          }
+        }
+    }
     
-    
-    
+    }
         
     }
     public ServerService(String namePl) throws RemoteException {
