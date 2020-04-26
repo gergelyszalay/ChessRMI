@@ -18,6 +18,7 @@ import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,6 +45,7 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
+    jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,13 +65,7 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
             }
         });
 
-        SearchB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        SearchB.setText("Search LAN");
-        SearchB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchBActionPerformed(evt);
-            }
-        });
+    
 
         jList1.setModel(model);
         jScrollPane1.setViewportView(jList1);
@@ -122,71 +118,13 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
         
         String name = JOptionPane.showInputDialog(getContentPane(),
                         "What is your name?", null);
-          if (name!=""){
-         
-                new Client(name);
+          if (!"".equals(name)){
+                String ip = jTextField1.getText();
+                new Client(name,ip);
             
           }
     }                                        
-
-    private void SearchBActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here: 
-        boolean isAlive = false;
-        model.clear();
-        model.addElement(": ");
-        InetAddress localhost; 
-        String myIp;
-        String[] myIpArray = new String[3]; 
-        DefaultListModel listModel = new DefaultListModel();
-        
-        
-        try {
-            localhost = InetAddress.getLocalHost();
-            myIp = (localhost.getHostAddress()).trim();
-            System.out.println(myIp);
-            myIpArray = myIp.split("\\.",5);
-        } catch (java.net.UnknownHostException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        for(int i =23; i<30; i++){
-             isAlive = false;
-             String ip=myIpArray[0]+"." + myIpArray[1]+"." + myIpArray[2]+"." + Integer.toString(i);
-             //System.out.println( ip );
-             SocketAddress socketAddress = new InetSocketAddress(ip, 6898 + 10);
-             Socket socket = new Socket();
-             try {
-                 socket.connect(socketAddress, 200);
-
-                 isAlive = true;
-                 if(isAlive){
-                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                    String message = (String) ois.readObject();
-                      
-                    
-                    model.addElement(ip +": " + message);
-                    System.out.println(model.toString()); 
-                    jList1.setModel(model);
-                    this.revalidate();
-
-       
-                    }
-              socket.close();   
-                // Socket s = new Socket(ip, 6898 + 10);
-             } catch (SocketTimeoutException exception) {
-                System.out.println("SocketTimeoutException " + ip +  ". " + exception.getMessage());
-             } catch (IOException exception) {
-                System.out.println(
-                "IOException - Unable to connect to " + ip+  ". " + exception.getMessage());
-             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
-             
-
-        }
-        
-    }                                       
+                             
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
@@ -240,6 +178,7 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration                   
 
 }

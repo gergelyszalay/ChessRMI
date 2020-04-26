@@ -595,12 +595,12 @@ public class ClientSide extends UnicastRemoteObject implements ClientService{
     
     }
 
-    public ClientSide(String namePl) throws InterruptedException, RemoteException {
+    public ClientSide(String namePl, String ip) throws InterruptedException, RemoteException {
 
         try {
             clientPl = namePl;
             // fire to localhost port 1099
-            Registry myRegistry = LocateRegistry.getRegistry("192.168.100.27", 1010);
+            Registry myRegistry = LocateRegistry.getRegistry(ip, 1010);
 
             // search for myMessage service
              impl = (ChessService) myRegistry.lookup("ChessServer");

@@ -44,13 +44,12 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        SearchB = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         label1 = new java.awt.Label();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -71,20 +70,10 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
             }
         });
 
-        SearchB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        SearchB.setText("Search LAN");
-        SearchB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchBActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Welcome Chess Player!!");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        jTextField1.setText("jTextField1");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -99,14 +88,17 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Start a new Game");
 
+        jTextField1.setText("jTextField1");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(SearchB, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
             .addGroup(layout.createSequentialGroup()
                 .addGap(120, 120, 120)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -128,8 +120,8 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(76, 76, 76))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -137,8 +129,7 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(SearchB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(36, 36, 36)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,7 +140,7 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -171,63 +162,6 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
           }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void SearchBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBActionPerformed
-        // TODO add your handling code here: 
-        boolean isAlive = false;
-        model.clear();
-        model.addElement(": ");
-        InetAddress localhost; 
-        String myIp;
-        String[] myIpArray = new String[3]; 
-        DefaultListModel listModel = new DefaultListModel();
-        
-        
-        try {
-            localhost = InetAddress.getLocalHost();
-            myIp = (localhost.getHostAddress()).trim();
-            System.out.println(myIp);
-            myIpArray = myIp.split("\\.",5);
-        } catch (java.net.UnknownHostException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        for(int i =23; i<30; i++){
-             isAlive = false;
-             String ip=myIpArray[0]+"." + myIpArray[1]+"." + myIpArray[2]+"." + Integer.toString(i);
-             //System.out.println( ip );
-             SocketAddress socketAddress = new InetSocketAddress(ip, 6898 + 10);
-             Socket socket = new Socket();
-             try {
-                 socket.connect(socketAddress, 600);
-
-                 isAlive = true;
-                 if(isAlive){
-                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                    String message = (String) ois.readObject();
-                      
-                    socket.close();
-                    model.addElement(ip +": " + message);
-                    System.out.println(model.toString()); 
-                    jList1.setModel(model);
-
-       
-                    }
-                // Socket s = new Socket(ip, 6898 + 10);
-             } catch (SocketTimeoutException exception) {
-                System.out.println("SocketTimeoutException " + ip +  ". " + exception.getMessage());
-             } catch (IOException exception) {
-                System.out.println(
-                "IOException - Unable to connect to " + ip+  ". " + exception.getMessage());
-             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
-             
-
-        }
-        
-    }//GEN-LAST:event_SearchBActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
           String name = JOptionPane.showInputDialog(getContentPane(),
@@ -236,6 +170,10 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
               new ServerSide(name);
           }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -276,7 +214,6 @@ DefaultListModel<String> model = new DefaultListModel<>()   ;
         
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton SearchB;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

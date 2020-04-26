@@ -14,9 +14,9 @@ import java.rmi.registry.Registry;
  * @author Gege
  */
 public class Client {
-     public Client(String namePl) {
+     public Client(String namePl, String ip) {
       try {
-        ClientSide clieent = new ClientSide(namePl);
+        ClientSide clieent = new ClientSide(namePl, ip);
         clieent.SendIp(clieent);
        
         } catch (InterruptedException | RemoteException e) {
