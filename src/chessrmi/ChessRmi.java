@@ -5,261 +5,241 @@
  */
 package chessrmi;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Scanner;
-import javax.swing.JFrame;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketTimeoutException;
+import java.rmi.UnknownHostException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Gege
  */
-public class ChessRmi{
-    
-    
-    public static void makeStepp(int activeX, int activeY, ChessBoard[][] board, ChessFigures[] figures){
-     for (int z=0; z<8; z++){
-           for (int w=0; w<8; w++){
-                if(board[z][w].active==true){
-                    board[activeX-1][activeY-1].ColorFigure =board[z][w].ColorFigure;
-                    board[activeX-1][activeY-1].NameFigure =board[z][w].NameFigure;
-                    board[z][w].active=false;
-                    board[z][w].ColorFigure="";
-                    board[z][w].NameFigure="";
-                    
-                    
-                    figures[board[z][w].figureId].positionX=activeX;
-                    figures[board[z][w].figureId].positionY=activeY;
-                    
-                    board[activeX-1][activeY-1].figureId =board[z][w].figureId;
-                    board[z][w].figureId=0;
-                    
-
-                }
-                   
-                   board[z][w].attackable=false;
-                   board[z][w].steppable=false;
-             }    
-           }    
-    
-    }
- 
- 
-    public static void Steppes(int activeX, int activeY, ChessBoard[][] board){
-        int x= activeX-1;
-        int y= activeY-1;
-        if(board[x][y].NameFigure=="Pawn"){
-            if (board[x][y-1].figureId==0){
-                if (y == 6){
-                    if (board[x][y-2].figureId==0){
-                        board[x][y-2].steppable=true;
-                    }
-                }
-                board[x][y-1].steppable=true;
-            }
-            if(x>0){
-                if (board[x-1][y-1].ColorFigure=="Black"){
-                    board[x-1][y-1].attackable=true;
-                }
-            }    
-            if(x<7){
-                if (board[x+1][y-1].ColorFigure=="Black"){
-                    board[x+1][y-1].attackable=true;
-                }
-            }    
-        }
-        
-        if(board[x][y].NameFigure=="Rock"){
-            int i=x;
-            int j=y;
-            
-            if(i!=7){
-                i++;
-                while(i<8 && board[i][y].figureId==0){
-                    board[i][y].steppable=true;
-                    i++;
-                }
-            }
-            
-            i=x;
-            j=y;
-            if(j!=0){
-                j--;
-                while(j>0 && board[x][j].figureId==0){
-                    board[x][j].steppable=true;
-                    j--;
-                }
-            }
-
-        }
-        
-    }
-       public static void clearField(ChessBoard[][] board){
-            for (int z=0; z<8; z++){
-           for (int w=0; w<8; w++){
-                
-             
-                   board[z][w].active=false;
-                    board[z][w].attackable=false;
-                     board[z][w].steppable=false;
-             }    
-           }
-        
-    }
-    
-
+public class ChessRmi extends javax.swing.JFrame {
+DefaultListModel<String> model = new DefaultListModel<>()   ;
     /**
-     * @param args the command line arguments
+     * Creates new form MainWindow
      */
+    public ChessRmi() {
+        initComponents();
+    }
+
   
-    public static void main(String[] args) {
-        
-        
-        ChessBoard[][] board = new ChessBoard[8][8];
-        for (int z=0; z<8; z++){
-           for (int w=0; w<8; w++){
-                
-               board[z][w] = new ChessBoard("",0);
-               if ((z+w)%2!=0){
-                   board[z][w].colorField="Dark";
-               }
-             }    
-           }
-         
-        
-        
-        
-         // creating object of JFrame(Window popup) 
-        JFrame window = new JFrame(); 
-       
-        // setting closing operation 
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-  
-        // setting size of the pop window 
-        window.setBounds(30, 30, 1000, 1000); 
-        ChessFigures[] figures = new ChessFigures[32];
-        
-        int x=0;
-        int y=0;
-        String name="";
-        String colorF="";
-        for(int i=0; i<32; i++){
-            if (i<16){
-                name="Pawn";
-                if(i<8){
-                    y=7;
-                    x=i+1;
-                    colorF="White";
-                }else{
-                    y=2;
-                    x=i-7;
-                    colorF="Black";
-                }
+    @SuppressWarnings("unchecked")
+                            
+    private void initComponents() {
 
-            }else if (i<20){
-                name="Rock";
-                if(i<18){
-                    y=8;
-                    x=i%16*7+1;
-                    colorF="White";
-                }else{
-                    y=1;
-                    x=i%18*7+1;
-                    colorF="Black";
-                }
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        SearchB = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
 
-            }else if (i<24){
-                name="Knight";
-                if(i<22){
-                    y=8;
-                    x=i%20*5+2;
-                    colorF="White";
-                }else{
-                    y=1;
-                    x=i%22*5+2;
-                    colorF="Black";
-                }
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-            }else if (i<28){
-                name="Bishop";
-                if(i<26){
-                    y=8;
-                    x=i%24*3+3;
-                    colorF="White";
-                }else{
-                    y=1;
-                    x=i%26*3+3;
-                    colorF="Black";
-                }
-
-            }else if (i<30){
-                name="Queen";
-                if(i<29){
-                    y=8;
-                    x=4;
-                    colorF="White";
-                }else{
-                    y=1;
-                    x=4;
-                    colorF="Black";
-                }
-
-            }
-            else{
-                name="King";
-                if(i<31){
-                    y=8;
-                    x=5;
-                    colorF="White";
-                }else{
-                    y=1;
-                    x=5;
-                    colorF="Black";
-                }
-
-            }
-            board[x-1][y-1].NameFigure= name;
-            board[x-1][y-1].ColorFigure = colorF;
-            board[x-1][y-1].figureId=i;
-            figures[i]= new ChessFigures(colorF, x, y, true, name);
-        }
-         
-        
-        
-        
-        // setting canvas for draw 
-        MyCanvas canvas = new MyCanvas(figures, board);
-        window.getContentPane().add(canvas); 
-       
-        
-        window.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                    int activeX = (e.getX()-8) /100;
-                    int activeY = (e.getY()-31)/100;
-                    if(board[activeX-1][activeY-1].ColorFigure=="White"){ 
-                        board[activeX-1][activeY-1].active=true;
-                        Steppes(activeX, activeY, board);
-                        canvas.clearC();
-                    }
-                    if(board[activeX-1][activeY-1].steppable==true || board[activeX-1][activeY-1].attackable==true){
-                        makeStepp(activeX, activeY, board, figures);
-                         canvas.clearC();
-                    }
-                    if(board[activeX-1][activeY-1].active==false && board[activeX-1][activeY-1].steppable==false){
-                        clearField(board);
-                        canvas.clearC();
-                    } 
-                    
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton1.setText("New Game");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
-  
-        // set visibility 
-        window.setVisible(true); 
-    } 
-    
-    
-     
- }
-    
 
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton2.setText("Connect");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        SearchB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        SearchB.setText("Search LAN");
+        SearchB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchBActionPerformed(evt);
+            }
+        });
+
+        jList1.setModel(model);
+        jScrollPane1.setViewportView(jList1);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Welcome Chess Player!!");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(SearchB, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(SearchB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(93, 93, 93)))
+                .addContainerGap(102, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        
+        String name = JOptionPane.showInputDialog(getContentPane(),
+                        "What is your name?", null);
+          if (name!=""){
+         
+                new Client(name);
+            
+          }
+    }                                        
+
+    private void SearchBActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        // TODO add your handling code here: 
+        boolean isAlive = false;
+        model.clear();
+        model.addElement(": ");
+        InetAddress localhost; 
+        String myIp;
+        String[] myIpArray = new String[3]; 
+        DefaultListModel listModel = new DefaultListModel();
+        
+        
+        try {
+            localhost = InetAddress.getLocalHost();
+            myIp = (localhost.getHostAddress()).trim();
+            System.out.println(myIp);
+            myIpArray = myIp.split("\\.",5);
+        } catch (java.net.UnknownHostException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        for(int i =23; i<30; i++){
+             isAlive = false;
+             String ip=myIpArray[0]+"." + myIpArray[1]+"." + myIpArray[2]+"." + Integer.toString(i);
+             //System.out.println( ip );
+             SocketAddress socketAddress = new InetSocketAddress(ip, 6898 + 10);
+             Socket socket = new Socket();
+             try {
+                 socket.connect(socketAddress, 200);
+
+                 isAlive = true;
+                 if(isAlive){
+                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                    String message = (String) ois.readObject();
+                      
+                    
+                    model.addElement(ip +": " + message);
+                    System.out.println(model.toString()); 
+                    jList1.setModel(model);
+                    this.revalidate();
+
+       
+                    }
+              socket.close();   
+                // Socket s = new Socket(ip, 6898 + 10);
+             } catch (SocketTimeoutException exception) {
+                System.out.println("SocketTimeoutException " + ip +  ". " + exception.getMessage());
+             } catch (IOException exception) {
+                System.out.println(
+                "IOException - Unable to connect to " + ip+  ". " + exception.getMessage());
+             } catch (ClassNotFoundException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             
+
+        }
+        
+    }                                       
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+          String name = JOptionPane.showInputDialog(getContentPane(),
+                        "What is your name?", null);
+          if (name!=""){
+              new ServerSide(name);
+          }
+    }                                        
+
+    
+    public static void main(String args[]) throws Exception  {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainWindow().setVisible(true);
+        });
+        
+        
+     
+     
+     }   
+        
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton SearchB;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
+    // End of variables declaration                   
+
+}

@@ -14,4 +14,5 @@ import java.rmi.RemoteException;
  */
 public interface ClientService extends Remote{
    public void RefreshClient() throws RemoteException; 
+   public void RefreshChat() throws RemoteException; 
 }

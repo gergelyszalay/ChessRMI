@@ -11,6 +11,8 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -30,7 +32,14 @@ public class ClientSide extends UnicastRemoteObject implements ClientService{
     boolean next;
     BoardCanvas canvas2;
     ChessService impl;
+    GameWindow sWindow2;
+    String clientPl;
+    @Override
+    public void RefreshChat() throws RemoteException{
+    sWindow2.jLabel3.setText(impl.getLabel());
+    sWindow2.window.revalidate();
     
+    }
     public static void clearField(ChessBoard[][] board) {
         for (int z = 0; z < 8; z++) {
             for (int w = 0; w < 8; w++) {
@@ -573,11 +582,23 @@ public class ClientSide extends UnicastRemoteObject implements ClientService{
         }
         return board;
     }
+     private void SendBActionPerformed(java.awt.event.ActionEvent evt) { 
+        try {
+             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+   LocalDateTime now = LocalDateTime.now();
+  
+            impl.setLabel("<html><br><b>"+clientPl+"</b> <i>"+ dtf.format(now)+":</i> " + sWindow2.textF.getText());
+            sWindow2.textF.setText("");
+        } catch (RemoteException ex) {
+            Logger.getLogger(ServerService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
 
     public ClientSide(String namePl) throws InterruptedException, RemoteException {
 
         try {
-
+            clientPl = namePl;
             // fire to localhost port 1099
             Registry myRegistry = LocateRegistry.getRegistry("192.168.100.27", 1010);
 
@@ -591,20 +612,25 @@ public class ClientSide extends UnicastRemoteObject implements ClientService{
             next = impl.PlayerNext();
 
             name4 = impl.getPlayerName();
-
+            sWindow2 = new GameWindow();
+            impl.setLabel("<html><br><b>Hi " + clientPl + ", you are with the " + b, 0);
+            sWindow2.jLabel3.setText(impl.getLabel());
+            sWindow2.send2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SendBActionPerformed(evt);
+            }
+            });
             board = refreshBoard(impl);
            // SendIp();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        GameWindow sWindow2 = new GameWindow();
-        sWindow2.setLabel1(name4);
-        sWindow2.setLabel2(namePl);
+        
         sWindow2.window.revalidate();
 
         canvas2 = new BoardCanvas(board, b);
         sWindow2.AddCanvas(canvas2);
-
+       ;
         sWindow2.window.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(final MouseEvent e) {
