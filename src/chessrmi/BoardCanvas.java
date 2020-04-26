@@ -38,74 +38,87 @@ public class BoardCanvas extends JComponent {
      //  System.out.println(name);
     if ("Pawn".equals(name) && "Black".equals(colorF)){
         
-        try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_pdt60.png"));
+        try {      
+                    String imageURL = ChessRmi.class.getResource("Chess_pdt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
         if ("Pawn".equals(name) && "White".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_plt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_plt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
          if ("King".equals(name) && "Black".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_kdt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_kdt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
          if ("King".equals(name) && "White".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_klt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_klt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
          if ("Queen".equals(name) && "Black".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_qdt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_qdt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
          if ("Queen".equals(name) && "White".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_qlt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_qlt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
          if ("Bishop".equals(name) && "Black".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_bdt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_bdt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
+      
          if ("Bishop".equals(name) && "White".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_blt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_blt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
          if ("Knight".equals(name) && "Black".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_ndt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_ndt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
          if ("Knight".equals(name) && "White".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_nlt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_nlt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
          if ("Rock".equals(name) && "Black".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_rdt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_rdt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }else
          if ("Rock".equals(name) && "White".equals(colorF)){
         try {
-                img = ImageIO.read(new File("C:\\Users\\Gege\\Documents\\NetBeansProjects\\ChessRmi\\Pictures\\Chess_rlt60.png"));
+            String imageURL = ChessRmi.class.getResource("Chess_rlt60.png").getFile();
+                img = ImageIO.read(new File(imageURL));
             } catch (IOException e) {
             } 
         }
