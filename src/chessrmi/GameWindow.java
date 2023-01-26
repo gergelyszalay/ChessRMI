@@ -11,20 +11,18 @@ package chessrmi;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import static javax.swing.SwingConstants.TOP;
 
+import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
 /**
  * @author Gege
  */
 public class GameWindow {
-    private static GameWindow gameWindow=null;
+    private static GameWindow gameWindow;
     public static synchronized GameWindow getInstance(){
         if (gameWindow ==null){
             gameWindow = new GameWindow();
@@ -39,7 +37,6 @@ public class GameWindow {
 
     public void setjLabel3(String text) {
         jLabel3.setText(text);
-        window.revalidate();
     }
 
     JFrame window = new JFrame();
@@ -62,11 +59,14 @@ public class GameWindow {
 
         // setting closing operation 
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         // setting size of the pop window 
         window.setBounds(30, 30, 1300, 1000);
         window.setResizable(false);
+        window.add(new Board());
 
+
+
+        /*
         //  jLabel1.setText("");
         //   window.add(jLabel1);
         jLabel3.setText(" VS ");
@@ -90,6 +90,7 @@ public class GameWindow {
         window.add(send2);
         window.add(textF);
         window.add(jLabel2);
+        */
         window.setVisible(true);
 
     }
