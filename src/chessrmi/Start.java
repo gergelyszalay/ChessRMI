@@ -16,7 +16,6 @@ public class Start {
             public void mouseClicked(final MouseEvent e) {
                 int posX = (e.getX() - windowInsets.left)/100;
                 int posY = (e.getY() - windowInsets.top)/100;
-                System.out.println(posX + " "+ posY);
 
             }
         });
